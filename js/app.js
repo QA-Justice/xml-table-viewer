@@ -168,6 +168,129 @@ function render() {
     : `<tr><td class="no-match" colspan="${view.columns.length}">No rows match “${escapeHtml(state.filter)}”.</td></tr>`;
 
   container.innerHTML = `<table class="data-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+  find.refresh();
+}
+
+// ===== 찾기 (Ctrl+F) =====
+// 크롬 사이드패널에서는 브라우저 찾기 바가 열리지 않아서, 결과 표 안에서 찾는 기능을 직접 제공한다.
+const find = {
+  query: '',
+  hits: [],
+  index: -1,
+
+  open() {
+    const bar = $('#findBar');
+    const input = $('#findInput');
+    bar.hidden = false;
+    // 표에서 선택한 글자가 있으면 검색어로 가져온다
+    const selected = String(window.getSelection() || '').trim();
+    if (selected && !selected.includes('\n') && document.activeElement !== $('#xmlInput')) input.value = selected;
+    input.focus();
+    input.select();
+    this.search(input.value);
+  },
+
+  close() {
+    $('#findBar').hidden = true;
+    this.query = '';
+    this.clear();
+    this.updateCount();
+  },
+
+  clear() {
+    document.querySelectorAll('#tableWrap mark.find-hit').forEach((mark) => {
+      mark.replaceWith(document.createTextNode(mark.textContent));
+    });
+    $('#tableWrap').normalize();
+    this.hits = [];
+    this.index = -1;
+  },
+
+  search(query) {
+    this.query = query;
+    this.index = -1;
+    this.refresh();
+    if (this.hits.length) this.go(0);
+  },
+
+  // 표를 다시 그린 뒤 하이라이트를 다시 입힌다 (현재 위치는 가능한 한 유지)
+  refresh() {
+    const keep = this.index;
+    this.clear();
+    const query = this.query.toLowerCase();
+    const table = $('#tableWrap table');
+    if (!query || !table) { this.updateCount(); return; }
+
+    const walker = document.createTreeWalker(table, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    for (const node of nodes) {
+      const text = node.nodeValue;
+      const lower = text.toLowerCase();
+      let at = lower.indexOf(query);
+      if (at === -1) continue;
+      const frag = document.createDocumentFragment();
+      let last = 0;
+      while (at !== -1) {
+        frag.append(text.slice(last, at));
+        const mark = document.createElement('mark');
+        mark.className = 'find-hit';
+        mark.textContent = text.slice(at, at + query.length);
+        frag.append(mark);
+        this.hits.push(mark);
+        last = at + query.length;
+        at = lower.indexOf(query, last);
+      }
+      frag.append(text.slice(last));
+      node.replaceWith(frag);
+    }
+
+    if (this.hits.length && keep !== -1) this.go(Math.min(keep, this.hits.length - 1), { scroll: false });
+    else this.updateCount();
+  },
+
+  go(i, { scroll = true } = {}) {
+    if (!this.hits.length) return;
+    if (this.index !== -1 && this.hits[this.index]) this.hits[this.index].classList.remove('current');
+    this.index = (i + this.hits.length) % this.hits.length;
+    const mark = this.hits[this.index];
+    mark.classList.add('current');
+    if (scroll) mark.scrollIntoView({ block: 'center', inline: 'nearest' });
+    this.updateCount();
+  },
+
+  next() { this.go(this.index + 1); },
+  prev() { this.go(this.index - 1); },
+
+  updateCount() {
+    const count = $('#findCount');
+    const input = $('#findInput');
+    if (!this.query) { count.textContent = ''; input.classList.remove('no-hit'); return; }
+    count.textContent = this.hits.length ? `${this.index + 1}/${this.hits.length}` : '0/0';
+    input.classList.toggle('no-hit', !this.hits.length);
+  },
+};
+
+function initFind() {
+  const input = $('#findInput');
+  input.addEventListener('input', () => find.search(input.value));
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); e.shiftKey ? find.prev() : find.next(); }
+    else if (e.key === 'Escape') { e.preventDefault(); find.close(); }
+  });
+  $('#findNextBtn').addEventListener('click', () => find.next());
+  $('#findPrevBtn').addEventListener('click', () => find.prev());
+  $('#findCloseBtn').addEventListener('click', () => find.close());
+
+  document.addEventListener('keydown', (e) => {
+    const mod = (e.ctrlKey || e.metaKey) && !e.altKey;
+    if (mod && e.key.toLowerCase() === 'f') { e.preventDefault(); find.open(); }
+    else if (e.key === 'F3' || (mod && e.key.toLowerCase() === 'g')) {
+      e.preventDefault();
+      if ($('#findBar').hidden) find.open();
+      else e.shiftKey ? find.prev() : find.next();
+    } else if (e.key === 'Escape' && !$('#findBar').hidden) find.close();
+  });
 }
 
 // ===== 입력 =====
@@ -337,5 +460,6 @@ bindEvents();
 initFocusHint();
 initPageLevelPaste();
 initZoom();
+initFind();
 renderLineNumbers();
 render();

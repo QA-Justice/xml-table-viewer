@@ -69,6 +69,14 @@
     </section>
   </main>
 
+  <div id="findBar" class="find-bar" role="search" hidden>
+    <input id="findInput" class="find-input" type="text" placeholder="Find in table" spellcheck="false" aria-label="Find in table">
+    <span id="findCount" class="find-count" aria-live="polite"></span>
+    <button id="findPrevBtn" class="find-btn" title="Previous (Shift + Enter)" aria-label="Previous match">↑</button>
+    <button id="findNextBtn" class="find-btn" title="Next (Enter)" aria-label="Next match">↓</button>
+    <button id="findCloseBtn" class="find-btn" title="Close (Esc)" aria-label="Close find">✕</button>
+  </div>
+
   <div id="toast" class="toast" role="status" hidden></div>
   <script type="module" src="js/app.js"></script>
 </body>

@@ -4,7 +4,7 @@ A Chrome side-panel extension that turns XML and SOAP responses into a table you
 
 XML·SOAP 응답을 붙여넣으면 표로 펼쳐 보여주고, 마크다운 복사와 CSV 다운로드를 지원하는 크롬 확장 프로그램입니다.
 
-![Version](https://img.shields.io/badge/Version-1.0.0-orange.svg)
+![Version](https://img.shields.io/badge/Version-1.1.0-orange.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
 ## ✨ Features
@@ -16,6 +16,7 @@ XML·SOAP 응답을 붙여넣으면 표로 펼쳐 보여주고, 마크다운 복
 - Namespace prefixes are removed (`soap:Envelope` → `Envelope`); `xsi:nil="true"` shows as `null`
 - CDATA and mixed content are kept
 - Pivot view (fields as rows), filter
+- Find in table with Ctrl + F (Chrome's own find bar doesn't work in side panels): highlights matches, Enter / Shift + Enter to move, Esc to close
 - Copy as Markdown, download CSV (UTF-8 with BOM for Excel) — both follow the current view and filter
 - Parse errors show the line and column and jump the cursor there
 - Whole-panel zoom (−/+, Ctrl + = / - / 0, Ctrl + wheel)

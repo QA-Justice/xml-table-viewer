@@ -1,6 +1,6 @@
 {
   "name": "XML Table Viewer",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "manifest_version": 3,
   "description": "Convert XML and SOAP responses to a table. Copy as Markdown, export CSV, pivot, and filter.",
   "permissions": ["sidePanel"],
