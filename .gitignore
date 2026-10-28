@@ -1,0 +1,10 @@
+# Store packages and signing keys
+*.zip
+*.pem
+*.crx
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

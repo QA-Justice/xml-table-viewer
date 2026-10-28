@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XML Table Viewer</title>
+  <link rel="stylesheet" href="fonts/fonts.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="icons/icon-32.png">
+</head>
+<body>
+  <main class="container">
+    <header>
+      <div class="zoom-control" title="Zoom (Ctrl + = / - / 0, Ctrl + wheel)">
+        <button id="zoomOutBtn" class="zoom-btn" aria-label="Zoom out">−</button>
+        <button id="zoomValue" class="zoom-value" title="Reset to 100%">100%</button>
+        <button id="zoomInBtn" class="zoom-btn" aria-label="Zoom in">+</button>
+      </div>
+      <h1>XML → Table Viewer</h1>
+      <p class="subtitle">Paste XML or SOAP. Get a table, Markdown, or CSV.</p>
+    </header>
+
+    <section class="input-section">
+      <div class="toolbar">
+        <button id="pasteBtn" class="btn" title="Paste XML from clipboard">📋 Paste</button>
+        <button id="uploadBtn" class="btn">📁 Upload</button>
+        <button id="sampleBtn" class="btn">Sample</button>
+        <button id="clearBtn" class="btn">Clear</button>
+        <input type="file" id="fileInput" accept=".xml,.wsdl,.svg,.txt,application/xml,text/xml" hidden>
+      </div>
+      <div class="editor">
+        <div class="line-numbers" id="lineNumbers" aria-hidden="true">1</div>
+        <textarea
+          id="xmlInput"
+          placeholder="<users>&#10;  <user id=&quot;1&quot;><name>Kim</name></user>&#10;  <user id=&quot;2&quot;><name>Lee</name></user>&#10;</users>"
+          rows="12"
+          spellcheck="false"
+          wrap="off"
+          autofocus
+        ></textarea>
+      </div>
+      <p id="focusHint" class="focus-hint" hidden>Click here first, then Ctrl+V — or use 📋 Paste.</p>
+      <div class="convert-row">
+        <button id="convertBtn" class="btn primary">✨ Convert</button>
+        <label class="check"><input type="checkbox" id="attrToggle" checked> Include attributes (@)</label>
+        <span class="kbd-hint">Ctrl + Enter</span>
+      </div>
+      <p id="errorBox" class="error-box" hidden></p>
+    </section>
+
+    <section class="result-section">
+      <div class="result-bar">
+        <label id="rowPicker" class="row-picker" hidden>
+          <span>Rows</span>
+          <select id="rowSelect"></select>
+        </label>
+        <input id="filterInput" class="filter" type="search" placeholder="Filter…" disabled>
+        <span id="status" class="status"></span>
+      </div>
+
+      <div id="tableWrap"></div>
+
+      <div class="export-bar">
+        <button id="pivotBtn" class="btn needs-table" disabled>🔄 Pivot</button>
+        <button id="mdBtn" class="btn needs-table" disabled>📋 Copy Markdown</button>
+        <button id="csvBtn" class="btn needs-table" disabled>📥 CSV</button>
+        <span class="export-note">Exports follow the current view and filter.</span>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
