@@ -31,52 +31,57 @@ XML Table Viewer
 Convert XML and SOAP responses to a table. Copy as Markdown, export CSV, pivot, and filter.
 ```
 
-**설명** (Description) — 영어
+**설명** (Description) — 추천: 영어 + 한국어 소개 + 출처
 
 ```
 Paste an XML or SOAP response and read it as a table — right in Chrome's side panel.
 
-XML Table Viewer is built for people who read API responses all day: QA engineers, backend developers, and anyone checking SOAP or XML payloads. Instead of scrolling through nested tags, you get rows and columns you can scan, search, and paste into a bug report.
+Built for QA engineers and developers who check API responses every day. Instead of scrolling through nested tags, get rows and columns you can search, filter, and paste straight into a bug report.
 
-★ CONVERT
-• Paste (📋 Paste button or Ctrl+V), type, or upload an .xml file
-• Press Convert or Ctrl + Enter
-• Repeated elements are detected and used as rows — switch the row element from a list, or view the whole document as one row
+XML·SOAP 응답을 붙여넣으면 사이드 패널에서 바로 표로 보여줍니다. 검색, 피벗, 마크다운 복사, CSV 다운로드를 지원하고, 데이터는 브라우저 밖으로 나가지 않습니다.
 
-★ FLATTEN
-• Nested elements become column paths: customer.address.city, items.item[0]
-• Attributes become @ columns (total@currency), with a toggle to hide them
-• Namespace prefixes are removed (soap:Envelope → Envelope)
-• xsi:nil="true" is shown as null
-• CDATA and mixed content are kept; Korean and other non-Latin text works as-is
+━━━━━━━━━━━━━━━━━━━━
 
-★ FIND (Ctrl + F)
-• Chrome's own find bar doesn't open in side panels — this one does
-• Every match in the table is highlighted, with a 3/12-style counter
-• Enter / Shift + Enter (or F3) to jump between matches, Esc to close
+✔ CONVERT
+• Paste, type, or upload an .xml file — Convert or Ctrl + Enter
+• Repeated elements become rows; pick a different row element from the list
 
-★ PIVOT & FILTER
-• Pivot turns fields into rows, so wide records fit a narrow side panel
-• Filter keeps only the rows that contain your text
+✔ FLATTEN
+• Nested elements → columns: customer.address.city, items.item[0]
+• Attributes → @ columns: total@currency (toggle to hide)
+• Namespace prefixes removed, xsi:nil shown as null, CDATA kept
 
-★ COPY & EXPORT
-• Copy as a Markdown table — paste straight into Jira, GitHub, Confluence, or Notion
-• Download CSV (UTF-8 with BOM, opens correctly in Excel)
+✔ FIND — Ctrl + F
+• Chrome's find bar doesn't work in side panels. This one does.
+• Every match highlighted · Enter / Shift + Enter to jump · Esc to close
+
+✔ PIVOT & FILTER
+• Pivot turns fields into rows — wide records fit a narrow panel
+• Filter keeps only the rows you care about
+
+✔ COPY & EXPORT
+• Copy as a Markdown table → Jira, GitHub, Confluence, Notion
+• Download CSV (UTF-8 BOM, opens cleanly in Excel)
 • Both follow the current view and filter
 
-★ MORE
-• Parse errors show the line and column, and the cursor jumps there
-• Whole-panel zoom (−/+, Ctrl + = / - / 0, Ctrl + wheel)
+✔ MORE
+• Parse errors show the exact line and column
+• Panel zoom: Ctrl + = / - / 0
 
-★ PRIVATE BY DESIGN
-• No tracking, no analytics, no network requests
-• Everything runs locally in your browser — even offline (fonts are bundled)
-• Your XML never leaves your computer
+━━━━━━━━━━━━━━━━━━━━
 
-Sibling of JSON Table Viewer.
+🔒 PRIVATE
+No tracking. No analytics. No network requests.
+Everything runs locally — even offline. Your XML never leaves your computer.
+
+━━━━━━━━━━━━━━━━━━━━
+
+CREDITS
+UI design adapted from the StudioBlank Design System by Chef (@chef), licensed under the MIT License and available through DESIGN.md. This extension is independently developed and is not affiliated with or endorsed by the original creator or DESIGN.md.
+Fonts: Inter, IBM Plex Mono, Pretendard (SIL Open Font License).
 ```
 
-**설명 — 한국어** (한국어 등록정보를 따로 둘 경우)
+**설명 — 한국어 전체** (한국어 등록정보를 따로 둘 경우)
 
 > 참고: 언어별 등록정보를 따로 두려면 확장에 `_locales`와 `default_locale`이 있어야 합니다. 지금 패키지에는 없으므로, 한 언어만 쓸 수 있습니다. 영어 설명에 한국어 소개를 덧붙이는 방식도 가능합니다.
 
@@ -119,6 +124,12 @@ API 응답을 매일 들여다보는 QA 엔지니어, 백엔드 개발자를 위
 • 추적·분석·네트워크 요청 없음
 • 모든 처리는 브라우저 안에서 — 오프라인에서도 동작 (폰트 내장)
 • XML 데이터는 컴퓨터 밖으로 나가지 않습니다
+
+━━━━━━━━━━━━━━━━━━━━
+
+출처
+UI 디자인은 Chef(@chef)의 StudioBlank Design System(MIT License, DESIGN.md에서 제공)을 바탕으로 했습니다. 이 확장 프로그램은 독립적으로 개발되었으며, 원작자 및 DESIGN.md와 제휴하거나 보증받지 않았습니다.
+폰트: Inter, IBM Plex Mono, Pretendard (SIL Open Font License)
 ```
 
 | 항목 | 값 |
